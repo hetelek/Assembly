@@ -10,6 +10,7 @@ using Assembly.Helpers;
 using Assembly.Helpers.Net;
 using Assembly.Helpers.PostGeneration;
 using Assembly.Metro.Dialogs;
+using XBDMCommunicator;
 
 namespace Assembly.Metro.Controls.PageTemplates.Tools
 {
@@ -93,7 +94,17 @@ namespace Assembly.Metro.Controls.PageTemplates.Tools
 					screenshotFileName = Path.GetTempFileName();
 					screenshotPng = Path.GetTempFileName();
 
-					if (!App.AssemblyStorage.AssemblySettings.Xbdm.GetScreenshot(screenshotFileName))
+                    XbdmDevice xbdmDevice = null;
+                    if (App.AssemblyStorage.AssemblySettings.Xbdm is XbdmDeviceCollection)
+                    {
+                        XbdmDeviceCollection deviceCollection = (XbdmDeviceCollection)App.AssemblyStorage.AssemblySettings.Xbdm;
+                        if (deviceCollection.XbdmDevices.Count > 0)
+                            xbdmDevice = (XbdmDevice)deviceCollection.XbdmDevices[0];
+                    }
+                    else
+                        xbdmDevice = (XbdmDevice)App.AssemblyStorage.AssemblySettings.Xbdm;
+
+                    if (xbdmDevice == null || !xbdmDevice.GetScreenshot(screenshotFileName))
 					{
 						Dispatcher.Invoke(
 							new Action(

@@ -197,19 +197,40 @@ namespace Assembly.Windows
 		//xbdm
 		private void menuScreenshot_Click(object sender, RoutedEventArgs e)
 		{
-			var screenshotFileName = Path.GetTempFileName();
-			try
-			{
-				if (App.AssemblyStorage.AssemblySettings.Xbdm.GetScreenshot(screenshotFileName))
-					App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName);
-				else
-					MetroMessageBox.Show("Not Connected", "You are not connected to a debug Xbox 360.");
-			}
-			finally
-			{
-				File.Delete(screenshotFileName);
-			}
+            bool allSuccessful = true;
+            if (App.AssemblyStorage.AssemblySettings.Xbdm is XbdmDeviceCollection)
+            {
+                XbdmDeviceCollection deviceCollection = (XbdmDeviceCollection)App.AssemblyStorage.AssemblySettings.Xbdm;
+
+                foreach (XbdmDevice device in deviceCollection.XbdmDevices)
+                    if (!createScreenShotTab(device))
+                        allSuccessful = false;
+            }
+            else
+                allSuccessful = createScreenShotTab((XbdmDevice)App.AssemblyStorage.AssemblySettings.Xbdm);
+
+            if (!allSuccessful)
+                MetroMessageBox.Show("Not Connected", "One or more devices failed to take retrieve a screenshot.");
 		}
+
+        private bool createScreenShotTab(XbdmDevice device)
+        {
+            bool success = true;
+            var screenshotFileName = Path.GetTempFileName();
+            try
+            {
+                if (device.GetScreenshot(screenshotFileName))
+                    App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName);
+                else
+                    success = false;
+            }
+            finally
+            {
+                File.Delete(screenshotFileName);
+            }
+
+            return success;
+        }
 
 		private void menuFreeze_Click(object sender, RoutedEventArgs e)
 		{

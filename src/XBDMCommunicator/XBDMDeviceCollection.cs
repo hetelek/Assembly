@@ -6,35 +6,35 @@ namespace XBDMCommunicator
 {
     public class XbdmDeviceCollection : IXbdm
     {
-        private List<IXbdm> _xbdmDevices = new List<IXbdm>();
-
         public XbdmDeviceCollection(string deviceIdents, bool openConnection = false)
         {
+            XbdmDevices = new List<XbdmDevice>();
             DeviceIdent = deviceIdents;
 
             string[] splitDeviceIdents = deviceIdents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < splitDeviceIdents.Length; i++)
-                _xbdmDevices.Add(new XbdmDevice(splitDeviceIdents[i], openConnection));
+                XbdmDevices.Add(new XbdmDevice(splitDeviceIdents[i], openConnection));
         }
 
         public XbdmMemoryStream MemoryStream
         {
             get
             {
-                return new XboxMemoryStreamCollection(_xbdmDevices);
+                return new XboxMemoryStreamCollection(XbdmDevices);
             }
             //set { _xboxMemoryStream = value; }
         }
 
+        public List<XbdmDevice> XbdmDevices { get; private set; }
         public string DeviceIdent { get; private set; }
         public string XboxType
         {
             get
             {
-                if (_xbdmDevices.Count < 1)
+                if (XbdmDevices.Count < 1)
                     return String.Empty;
 
-                return _xbdmDevices[0].XboxType;
+                return XbdmDevices[0].XboxType;
             }
         }
 
@@ -42,7 +42,7 @@ namespace XBDMCommunicator
         {
             get
             {
-                foreach (IXbdm xbdmDevice in _xbdmDevices)
+                foreach (IXbdm xbdmDevice in XbdmDevices)
                     if (!xbdmDevice.IsConnected)
                         return false;
                 return true;
@@ -55,14 +55,14 @@ namespace XBDMCommunicator
             List<string> newSplitDeviceIdents = new List<string>(deviceIdents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
             // disconnect and remove any devices not included
-            for (int i = 0; i < _xbdmDevices.Count; i++)
+            for (int i = 0; i < XbdmDevices.Count; i++)
             {
-                IXbdm xbdmDevice = _xbdmDevices[i];
+                IXbdm xbdmDevice = XbdmDevices[i];
 
                 if (!newSplitDeviceIdents.Contains(xbdmDevice.DeviceIdent))
                 {
                     xbdmDevice.Disconnect();
-                    _xbdmDevices.RemoveAt(i--);
+                    XbdmDevices.RemoveAt(i--);
                 }
                 else
                     newSplitDeviceIdents.Remove(xbdmDevice.DeviceIdent);
@@ -70,17 +70,17 @@ namespace XBDMCommunicator
 
             // add any new devices
             foreach (string newSplitDeviceIdent in newSplitDeviceIdents)
-                _xbdmDevices.Add(new XbdmDevice(newSplitDeviceIdent));
+                XbdmDevices.Add(new XbdmDevice(newSplitDeviceIdent));
         }
 
         public string SendStringCommand(string command)
         {
-            if (_xbdmDevices.Count < 1)
+            if (XbdmDevices.Count < 1)
                 return String.Empty;
 
-            string[] responses = new string[_xbdmDevices.Count];
+            string[] responses = new string[XbdmDevices.Count];
             for (int i = 0; i < responses.Length; i++)
-                responses[i] = _xbdmDevices[i].SendStringCommand(command);
+                responses[i] = XbdmDevices[i].SendStringCommand(command);
 
             return responses[0];
         }
@@ -89,7 +89,7 @@ namespace XBDMCommunicator
         {
             bool connectedToAll = true;
             
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (IXbdm xbdmDevice in XbdmDevices)
                 if (!xbdmDevice.Connect())
                     connectedToAll = false;
 
@@ -98,47 +98,32 @@ namespace XBDMCommunicator
 
         public void Disconnect()
         {
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (IXbdm xbdmDevice in XbdmDevices)
                 xbdmDevice.Disconnect();
         }
 
         public void Freeze()
         {
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (IXbdm xbdmDevice in XbdmDevices)
                 xbdmDevice.Freeze();
         }
 
         public void Unfreeze()
         {
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (IXbdm xbdmDevice in XbdmDevices)
                 xbdmDevice.Unfreeze();
         }
 
         public void Reboot(RebootType rebootType)
         {
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (IXbdm xbdmDevice in XbdmDevices)
                 xbdmDevice.Reboot(rebootType);
         }
 
         public void Shutdown()
         {
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (IXbdm xbdmDevice in XbdmDevices)
                 xbdmDevice.Shutdown();
-        }
-
-        public bool GetScreenshot(string savePath, bool freezeDuring = false)
-        {
-            if (_xbdmDevices.Count < 1)
-                return false;
-
-            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
-            {
-                string path = Path.Combine(new string[] {desktop, xbdmDevice.DeviceIdent + ".png" });
-                xbdmDevice.GetScreenshot(path);
-            }
-
-            return _xbdmDevices[0].GetScreenshot(savePath, freezeDuring);
         }
     }
 }

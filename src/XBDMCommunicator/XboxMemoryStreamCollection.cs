@@ -7,13 +7,13 @@ namespace XBDMCommunicator
     public class XboxMemoryStreamCollection : XbdmMemoryStream
     {
         // Private Modifiers
-        private readonly List<IXbdm> _xbdmDevices;
-        public XboxMemoryStreamCollection(IXbdm[] xbdmDevices)
+        private readonly List<XbdmDevice> _xbdmDevices;
+        public XboxMemoryStreamCollection(XbdmDevice[] xbdmDevices)
         {
-            _xbdmDevices = new List<IXbdm>(xbdmDevices);
+            _xbdmDevices = new List<XbdmDevice>(xbdmDevices);
         }
 
-        public XboxMemoryStreamCollection(List<IXbdm> xbdmDevices)
+        public XboxMemoryStreamCollection(List<XbdmDevice> xbdmDevices)
         {
             _xbdmDevices = xbdmDevices;
         }
@@ -27,7 +27,7 @@ namespace XBDMCommunicator
         public override long Seek(long offset, SeekOrigin origin)
         {
             long position = Position;
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (XbdmDevice xbdmDevice in _xbdmDevices)
                 position = xbdmDevice.MemoryStream.Seek(offset, origin);
 
             return position;
@@ -35,7 +35,7 @@ namespace XBDMCommunicator
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            foreach (IXbdm xbdmDevice in _xbdmDevices)
+            foreach (XbdmDevice xbdmDevice in _xbdmDevices)
                 xbdmDevice.MemoryStream.Write(buffer, offset, count);
         }
     }

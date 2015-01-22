@@ -27,7 +27,5 @@ namespace XBDMCommunicator
 		
         void Reboot(RebootType rebootType);
 		void Shutdown();
-
-        bool GetScreenshot(string savePath, bool freezeDuring = false);
     }
 }
