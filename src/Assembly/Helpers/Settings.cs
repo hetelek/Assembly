@@ -155,7 +155,7 @@ namespace Assembly.Helpers
 		private bool _startpageShowRecentsMap = true;
 		private bool _startpageShowRecentsMapInfo = true;
 		private bool _startpageShowRecentsCampaign = true;
-		private Xbdm _xbdm;
+        private IXbdm _xbdm;
 		private bool _xdkAutoSave;
 		private string _xdkNameIp = "192.168.0.1";
 		private bool _xdkResizeImages;
@@ -677,7 +677,7 @@ namespace Assembly.Helpers
 		/// <summary>
 		/// </summary>
 		[JsonIgnore]
-		public Xbdm Xbdm
+        public IXbdm Xbdm
 		{
 			get { return _xbdm; }
 			set { SetField(ref _xbdm, value, "Xbdm"); }

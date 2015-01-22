@@ -9,13 +9,13 @@ namespace XBDMCommunicator
 	/// </summary>
 	public class XBDMRTEProvider : IRTEProvider
 	{
-		private readonly Xbdm _xbdm;
+		private readonly IXbdm _xbdm;
 
 		/// <summary>
 		///     Constructs a new XBDMRTEProvider based off of an Xbdm object.
 		/// </summary>
 		/// <param name="xbdm">The Xbdm object to use to connect to the console.</param>
-		public XBDMRTEProvider(Xbdm xbdm)
+        public XBDMRTEProvider(IXbdm xbdm)
 		{
 			_xbdm = xbdm;
 		}

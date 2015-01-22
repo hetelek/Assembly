@@ -223,12 +223,12 @@ namespace Assembly.Windows
 
 		private void menuRebootTitle_Click(object sender, RoutedEventArgs e)
 		{
-			App.AssemblyStorage.AssemblySettings.Xbdm.Reboot(Xbdm.RebootType.Title);
+			App.AssemblyStorage.AssemblySettings.Xbdm.Reboot(RebootType.Title);
 		}
 
 		private void menuRebootCold_Click(object sender, RoutedEventArgs e)
 		{
-			App.AssemblyStorage.AssemblySettings.Xbdm.Reboot(Xbdm.RebootType.Cold);
+			App.AssemblyStorage.AssemblySettings.Xbdm.Reboot(RebootType.Cold);
 		}
 
 		// Help

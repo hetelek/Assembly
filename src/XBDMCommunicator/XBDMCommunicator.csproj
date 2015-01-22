@@ -92,9 +92,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IXBDM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XBDM.cs" />
+    <Compile Include="XBDMDevice.cs" />
+    <Compile Include="XBDMDeviceCollection.cs" />
     <Compile Include="XBDMRTEProvider.cs" />
+    <Compile Include="XboxMemoryStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

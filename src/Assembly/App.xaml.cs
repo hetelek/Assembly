@@ -69,7 +69,7 @@ namespace Assembly
 			JumpLists.UpdateJumplists();
 
 			// Create XBDM Instance
-			AssemblyStorage.AssemblySettings.Xbdm = new Xbdm(AssemblyStorage.AssemblySettings.XdkNameIp);
+			AssemblyStorage.AssemblySettings.Xbdm = new XbdmDeviceCollection(AssemblyStorage.AssemblySettings.XdkNameIp);
 
 			// Try and delete all temp data
 			VariousFunctions.EmptyUpdaterLocations();
