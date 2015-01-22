@@ -1089,6 +1089,10 @@
     <Resource Include="Metro\Images\logo_small.png" />
     <Resource Include="Metro\Images\background_logo.png" />
     <Resource Include="Metro\Images\settings_logo.png" />
+    <ProjectReference Include="..\AssemblyIconLibrary\AssemblyIconLibrary.vcxproj">
+      <Project>{96a482d0-e898-4228-801b-a7eb1887596d}</Project>
+      <Name>AssemblyIconLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blamite\Blamite.csproj">
       <Project>{6b105ab9-84a0-4774-b319-75e9cab3db4b}</Project>
       <Name>Blamite</Name>
@@ -1134,9 +1138,6 @@
     <Resource Include="Metro\Controls\AvalonDockMetro\Images\Locked.png" />
     <Resource Include="Metro\Controls\AvalonDockMetro\Images\PinRestore.png" />
     <Resource Include="Metro\Images\DockPaneImageTile.png" />
-    <EmbeddedResource Include="..\AssemblyIconLibrary\bin\AssemblyIconLibrary.dll">
-      <Link>AssemblyIconLibrary.dll</Link>
-    </EmbeddedResource>
     <Content Include="Plugins\Examples\ThirdGenExample.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
