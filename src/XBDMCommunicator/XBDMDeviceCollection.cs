@@ -17,7 +17,7 @@ namespace XBDMCommunicator
                 _xbdmDevices.Add(new XbdmDevice(splitDeviceIdents[i], openConnection));
         }
 
-        public XboxMemoryStream MemoryStream
+        public XbdmMemoryStream MemoryStream
         {
             get
             {

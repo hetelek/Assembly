@@ -4,7 +4,7 @@ using System.IO;
 namespace XBDMCommunicator
 {
     // Memory IO
-    public class XboxMemoryStream : Stream
+    public class XboxMemoryStream : XbdmMemoryStream
     {
         // Private Modifiers
         private readonly XbdmDevice _xbdm;
@@ -16,32 +16,6 @@ namespace XBDMCommunicator
         }
 
         // IO Functions
-        public override bool CanRead
-        {
-            get { return true; }
-        }
-
-        public override bool CanSeek
-        {
-            get { return true; }
-        }
-
-        public override bool CanWrite
-        {
-            get { return true; }
-        }
-
-        public override long Length
-        {
-            get { return 0x100000000; }
-        }
-
-        public override sealed long Position { get; set; }
-
-        public override void Flush()
-        {
-        }
-
         public override int Read(byte[] buffer, int offset, int count)
         {
             if (!_xbdm.Connect())
@@ -88,10 +62,6 @@ namespace XBDMCommunicator
                     break;
             }
             return Position;
-        }
-
-        public override void SetLength(long value)
-        {
         }
 
         public override void Write(byte[] buffer, int offset, int count)

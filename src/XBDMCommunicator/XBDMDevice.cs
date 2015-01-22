@@ -6,7 +6,7 @@ namespace XBDMCommunicator
 {
     public class XbdmDevice : IXbdm
 	{
-		private readonly XboxMemoryStream _xboxMemoryStream;
+		private readonly XbdmMemoryStream _xboxMemoryStream;
 		private uint _xboxConnectionCode;
 		private XboxConsole _xboxConsole;
 		private IXboxManager _xboxManager;
@@ -32,7 +32,7 @@ namespace XBDMCommunicator
 		public string XboxType { get; private set; }
 		public bool IsConnected { get; private set; }
 
-		public XboxMemoryStream MemoryStream
+		public XbdmMemoryStream MemoryStream
 		{
 			get { return _xboxMemoryStream; }
 			//set { _xboxMemoryStream = value; }

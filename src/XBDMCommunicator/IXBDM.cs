@@ -10,7 +10,7 @@ namespace XBDMCommunicator
 
     public interface IXbdm
     {
-        XboxMemoryStream MemoryStream { get; }
+        XbdmMemoryStream MemoryStream { get; }
 
         string DeviceIdent { get; }
         string XboxType { get; }
