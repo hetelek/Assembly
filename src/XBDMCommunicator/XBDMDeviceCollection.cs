@@ -21,9 +21,7 @@ namespace XBDMCommunicator
         {
             get
             {
-                if (_xbdmDevices.Count < 1)
-                    return null;
-                return _xbdmDevices[0].MemoryStream;
+                return new XboxMemoryStreamCollection(_xbdmDevices);
             }
             //set { _xboxMemoryStream = value; }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace XBDMCommunicator
@@ -6,8 +7,13 @@ namespace XBDMCommunicator
     public class XboxMemoryStreamCollection : XbdmMemoryStream
     {
         // Private Modifiers
-        private readonly IXbdm[] _xbdmDevices;
+        private readonly List<IXbdm> _xbdmDevices;
         public XboxMemoryStreamCollection(IXbdm[] xbdmDevices)
+        {
+            _xbdmDevices = new List<IXbdm>(xbdmDevices);
+        }
+
+        public XboxMemoryStreamCollection(List<IXbdm> xbdmDevices)
         {
             _xbdmDevices = xbdmDevices;
         }
