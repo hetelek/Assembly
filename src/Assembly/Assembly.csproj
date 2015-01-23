@@ -400,6 +400,9 @@
     <Compile Include="Metro\Dialogs\ControlDialogs\TagBookmarkSaver.xaml.cs">
       <DependentUpon>TagBookmarkSaver.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Metro\Dialogs\ControlDialogs\TagSearch.xaml.cs">
+      <DependentUpon>TagSearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Metro\Dialogs\ControlDialogs\ViewValueAs.xaml.cs">
       <DependentUpon>ViewValueAs.xaml</DependentUpon>
     </Compile>
@@ -501,6 +504,7 @@
     <Compile Include="Helpers\Native\WindowMovement.cs" />
     <Compile Include="Helpers\PostGeneration\AssemblyPostGenerator.cs" />
     <Compile Include="Helpers\PostGeneration\ModPostInfo.cs" />
+    <Compile Include="Metro\Dialogs\TagSearch.cs" />
     <Compile Include="SyntaxHighlighting\HighlightLoader.cs" />
     <Compile Include="Windows\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
@@ -961,6 +965,10 @@
     <Page Include="Metro\Dialogs\ControlDialogs\TagBookmarkSaver.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Metro\Dialogs\ControlDialogs\TagSearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Metro\Dialogs\ControlDialogs\Updater.xaml">
       <SubType>Designer</SubType>
