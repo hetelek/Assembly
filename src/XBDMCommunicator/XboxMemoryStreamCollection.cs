@@ -26,17 +26,19 @@ namespace XBDMCommunicator
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            long position = Position;
             foreach (XbdmDevice xbdmDevice in _xbdmDevices)
-                position = xbdmDevice.MemoryStream.Seek(offset, origin);
+                Position = xbdmDevice.MemoryStream.Seek(offset, origin);
 
-            return position;
+            return Position;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
             foreach (XbdmDevice xbdmDevice in _xbdmDevices)
+            {
                 xbdmDevice.MemoryStream.Write(buffer, offset, count);
+                Position = xbdmDevice.MemoryStream.Position;
+            }
         }
     }
 }
