@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Assembly.Metro.Controls.PageTemplates.Games.Components.MetaComponents"
              xmlns:games="clr-namespace:Assembly.Metro.Controls.PageTemplates.Games"
-             mc:Ignorable="d" Height="28" Width="805"
+             mc:Ignorable="d" Height="28" Width="808"
              HorizontalAlignment="Left"
              x:Name="control">
     <UserControl.Resources>

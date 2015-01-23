@@ -33,6 +33,7 @@ namespace Assembly.Metro.Controls.PageTemplates.Games.Components.MetaComponents
             cbTagEntry.IsEnabled = enable;
             btnNullTag.IsEnabled = enable;
             btnJumpToTag.IsEnabled = enable;
+            btnSearchTag.IsEnabled = enable;
         }
 
         private void cbTagEntry_SelectionChanged(object sender, SelectionChangedEventArgs e)
