@@ -197,20 +197,34 @@ namespace Assembly.Windows
 		//xbdm
 		private void menuScreenshot_Click(object sender, RoutedEventArgs e)
 		{
-            bool allSuccessful = true;
-            if (App.AssemblyStorage.AssemblySettings.Xbdm is XbdmDeviceCollection)
+            new Thread(new ThreadStart(delegate
             {
-                XbdmDeviceCollection deviceCollection = (XbdmDeviceCollection)App.AssemblyStorage.AssemblySettings.Xbdm;
+                this.Dispatcher.Invoke(delegate
+                    {
+                        menuScreenshot.IsEnabled = false;
+                    });
 
-                foreach (XbdmDevice device in deviceCollection.XbdmDevices)
-                    if (!createScreenShotTab(device))
-                        allSuccessful = false;
-            }
-            else
-                allSuccessful = createScreenShotTab((XbdmDevice)App.AssemblyStorage.AssemblySettings.Xbdm);
+                bool allSuccessful = true;
+                if (App.AssemblyStorage.AssemblySettings.Xbdm is XbdmDeviceCollection)
+                {
+                    XbdmDeviceCollection deviceCollection = (XbdmDeviceCollection)App.AssemblyStorage.AssemblySettings.Xbdm;
 
-            if (!allSuccessful)
-                MetroMessageBox.Show("Not Connected", "One or more devices failed to take retrieve a screenshot.");
+                    foreach (XbdmDevice device in deviceCollection.XbdmDevices)
+                        if (!createScreenShotTab(device))
+                            allSuccessful = false;
+                }
+                else
+                    allSuccessful = createScreenShotTab((XbdmDevice)App.AssemblyStorage.AssemblySettings.Xbdm);
+
+                this.Dispatcher.Invoke(delegate
+                {
+                    menuScreenshot.IsEnabled = true;
+
+                    if (!allSuccessful)
+                        MetroMessageBox.Show("Not Connected", "One or more devices failed to take retrieve a screenshot.");
+                });
+
+            })).Start();
 		}
 
         private bool createScreenShotTab(XbdmDevice device)
@@ -220,7 +234,12 @@ namespace Assembly.Windows
             try
             {
                 if (device.GetScreenshot(screenshotFileName))
-                    App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName);
+                {
+                    this.Dispatcher.Invoke(delegate
+                    {
+                        App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName);
+                    });
+                }
                 else
                     success = false;
             }
