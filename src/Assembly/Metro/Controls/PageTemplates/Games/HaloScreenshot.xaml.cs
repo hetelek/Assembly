@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using Assembly.Helpers;
 using Assembly.Helpers.Net;
 using Assembly.Metro.Dialogs;
+using XBDMCommunicator;
 using Xceed.Wpf.AvalonDock.Layout;
 using Clipboard = System.Windows.Clipboard;
 
@@ -22,7 +23,7 @@ namespace Assembly.Metro.Controls.PageTemplates.Games
 		private readonly string _datetime_shrt;
 		private string _imageID;
 
-		public HaloScreenshot(string tempImageLocation, LayoutDocument tabItem)
+		public HaloScreenshot(string tempImageLocation, LayoutDocument tabItem, XbdmDevice device)
 		{
 			InitializeComponent();
 
@@ -42,6 +43,9 @@ namespace Assembly.Metro.Controls.PageTemplates.Games
 
 			// Set Image
 			imageScreenshot.Source = _bitmapImage;
+
+			// Set device name
+			lblDevice.Text = device.DeviceIdent;
 
 			// Should I save the image?
 			if (!App.AssemblyStorage.AssemblySettings.XdkAutoSave) return;

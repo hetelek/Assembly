@@ -265,17 +265,24 @@ namespace Assembly.Windows
 					return;
 				string parentHeader = (string)parentMenuItem.Header;
 
-				IXbdm xbdm = (IXbdm)currentItem.Tag;
-				if (parentHeader == "Take Screenshot")
-					takeScreenshot(xbdm);
-				else if (parentHeader == "Freeze")
-					xbdm.Freeze();
-				else if (parentHeader == "Unfreeze")
-					xbdm.Unfreeze();
-				else if (parentHeader == "Title Reboot")
-					xbdm.Reboot(RebootType.Title);
-				else if (parentHeader == "Cold Reboot")
-					xbdm.Reboot(RebootType.Cold);
+				try
+				{
+					IXbdm xbdm = (IXbdm)currentItem.Tag;
+					if (parentHeader == "Take Screenshot")
+						takeScreenshot(xbdm);
+					else if (parentHeader == "Freeze")
+						xbdm.Freeze();
+					else if (parentHeader == "Unfreeze")
+						xbdm.Unfreeze();
+					else if (parentHeader == "Title Reboot")
+						xbdm.Reboot(RebootType.Title);
+					else if (parentHeader == "Cold Reboot")
+						xbdm.Reboot(RebootType.Cold);
+				}
+				catch
+				{
+					MetroMessageBox.Show("Failed", "The operation failed to succeed.");
+				}
 			}
 		}
 
@@ -321,7 +328,7 @@ namespace Assembly.Windows
                 {
                     this.Dispatcher.Invoke(delegate
                     {
-                        App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName);
+                        App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName, device);
                     });
                 }
                 else
@@ -666,7 +673,7 @@ namespace Assembly.Windows
 		///     Add a new XBox Screenshot Editor Container
 		/// </summary>
 		/// <param name="tempImageLocation">Path to the temporary location of the image</param>
-		public void AddScrenTabModule(string tempImageLocation)
+		public void AddScrenTabModule(string tempImageLocation, XbdmDevice device)
 		{
 			var newScreenshotTab = new LayoutDocument
 			{
@@ -674,7 +681,7 @@ namespace Assembly.Windows
 				Title = "Screenshot",
 				ToolTip = tempImageLocation
 			};
-			newScreenshotTab.Content = new HaloScreenshot(tempImageLocation, newScreenshotTab);
+			newScreenshotTab.Content = new HaloScreenshot(tempImageLocation, newScreenshotTab, device);
 			documentManager.Children.Add(newScreenshotTab);
 			documentManager.SelectedContentIndex = documentManager.IndexOfChild(newScreenshotTab);
 		}

@@ -20,6 +20,10 @@
 					           FontFamily="{DynamicResource MetroFontRegular}" />
 					<TextBlock x:Name="lblImageName" Text="[:img:name:]" Foreground="#FF999999" Margin="5,0,0,0"
 					           VerticalAlignment="Center" FontFamily="{DynamicResource MetroFontRegular}" />
+					<TextBlock Text="Device:" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"
+					           FontFamily="{DynamicResource MetroFontRegular}" />
+					<TextBlock x:Name="lblDevice" Text="[:img:device:]" Foreground="#FF999999" Margin="5,0,0,0"
+					           VerticalAlignment="Center" FontFamily="{DynamicResource MetroFontRegular}" />
 				</StackPanel>
 			</Border>
 		</Grid>
