@@ -196,6 +196,89 @@ namespace Assembly.Windows
 		}
 
 		//xbdm
+		private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
+		{
+			if (sender is MenuItem)
+			{
+				// make sure we have an xbdmdevicecollection
+				if (App.AssemblyStorage.AssemblySettings.Xbdm is XbdmDeviceCollection)
+				{
+					XbdmDeviceCollection xbdmDeviceCollection = (XbdmDeviceCollection)App.AssemblyStorage.AssemblySettings.Xbdm;
+					IList<XbdmDevice> devices = xbdmDeviceCollection.XbdmDevices;
+
+					// get sender, loop through items
+					MenuItem parentMenuItem = (MenuItem)sender;
+					foreach (Control item in parentMenuItem.Items)
+					{
+						// if item is menu item, then add devices
+						if (item is MenuItem)
+						{
+							MenuItem currentMenuItem = (MenuItem)item;
+
+							// clear current items
+							currentMenuItem.Items.Clear();
+
+							// if we have 0 devices, tell them
+							if (devices.Count < 1)
+							{
+								MenuItem noDevicesItem = new MenuItem();
+								noDevicesItem.Header = "No Devices";
+								noDevicesItem.IsEnabled = false;
+
+								currentMenuItem.Items.Add(noDevicesItem);
+							}
+							else
+							{
+								// create all devices item
+								MenuItem allDevicesItem = new MenuItem();
+								allDevicesItem.Header = "All Devices";
+								allDevicesItem.Tag = xbdmDeviceCollection;
+								allDevicesItem.Click += xboxDevice_Click;
+
+								currentMenuItem.Items.Add(allDevicesItem);
+								currentMenuItem.Items.Add(new Separator());
+
+								// add every device
+								foreach (XbdmDevice device in devices)
+								{
+									MenuItem newItem = new MenuItem();
+									newItem.Header = device.DeviceIdent;
+									newItem.Tag = device;
+									newItem.Click += xboxDevice_Click;
+									currentMenuItem.Items.Add(newItem);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		void xboxDevice_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is MenuItem)
+			{
+				MenuItem currentItem = (MenuItem)sender;
+				MenuItem parentMenuItem = (MenuItem)currentItem.Parent;
+
+				if (!(currentItem.Tag is IXbdm))
+					return;
+				string parentHeader = (string)parentMenuItem.Header;
+
+				IXbdm xbdm = (IXbdm)currentItem.Tag;
+				if (parentHeader == "Take Screenshot")
+					takeScreenshot(xbdm);
+				else if (parentHeader == "Freeze")
+					xbdm.Freeze();
+				else if (parentHeader == "Unfreeze")
+					xbdm.Unfreeze();
+				else if (parentHeader == "Title Reboot")
+					xbdm.Reboot(RebootType.Title);
+				else if (parentHeader == "Cold Reboot")
+					xbdm.Reboot(RebootType.Cold);
+			}
+		}
+
 		private void takeScreenshot(IXbdm deviceOrDeviceCollection)
 		{
             new Thread(new ThreadStart(delegate
@@ -947,88 +1030,5 @@ namespace Assembly.Windows
 		}
 
 		#endregion
-
-		private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
-		{
-			if (sender is MenuItem)
-			{
-				// make sure we have an xbdmdevicecollection
-				if (App.AssemblyStorage.AssemblySettings.Xbdm is XbdmDeviceCollection)
-				{
-					XbdmDeviceCollection xbdmDeviceCollection = (XbdmDeviceCollection)App.AssemblyStorage.AssemblySettings.Xbdm;
-					IList<XbdmDevice> devices = xbdmDeviceCollection.XbdmDevices;
-
-					// get sender, loop through items
-					MenuItem parentMenuItem = (MenuItem)sender;
-					foreach (Control item in parentMenuItem.Items)
-					{
-						// if item is menu item, then add devices
-						if (item is MenuItem)
-						{
-							MenuItem currentMenuItem = (MenuItem)item;
-
-							// clear current items
-							currentMenuItem.Items.Clear();
-
-							// if we have 0 devices, tell them
-							if (devices.Count < 1)
-							{
-								MenuItem noDevicesItem = new MenuItem();
-								noDevicesItem.Header = "No Devices";
-								noDevicesItem.IsEnabled = false;
-
-								currentMenuItem.Items.Add(noDevicesItem);
-							}
-							else
-							{
-								// create all devices item
-								MenuItem allDevicesItem = new MenuItem();
-								allDevicesItem.Header = "All Devices";
-								allDevicesItem.Tag = xbdmDeviceCollection;
-								allDevicesItem.Click += xboxDevice_Click;
-
-								currentMenuItem.Items.Add(allDevicesItem);
-								currentMenuItem.Items.Add(new Separator());
-
-								// add every device
-								foreach (XbdmDevice device in devices)
-								{
-									MenuItem newItem = new MenuItem();
-									newItem.Header = device.DeviceIdent;
-									newItem.Tag = device;
-									newItem.Click += xboxDevice_Click;
-									currentMenuItem.Items.Add(newItem);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		void xboxDevice_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is MenuItem)
-			{
-				MenuItem currentItem = (MenuItem)sender;
-				MenuItem parentMenuItem = (MenuItem)currentItem.Parent;
-
-				if (!(currentItem.Tag is IXbdm))
-					return;
-				string parentHeader = (string)parentMenuItem.Header;
-
-				IXbdm xbdm = (IXbdm)currentItem.Tag;
-				if (parentHeader == "Take Screenshot")
-					takeScreenshot(xbdm);
-				else if (parentHeader == "Freeze")
-					xbdm.Freeze();
-				else if (parentHeader == "Unfreeze")
-					xbdm.Unfreeze();
-				else if (parentHeader == "Title Reboot")
-					xbdm.Reboot(RebootType.Title);
-				else if (parentHeader == "Cold Reboot")
-					xbdm.Reboot(RebootType.Cold);
-			}
-		}
 	}
 }
