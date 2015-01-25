@@ -111,30 +111,30 @@
 							<MenuItem Header="Settings" x:Name="menuOpenSettings" Click="menuOpenSettings_Click" />
 						</MenuItem>
 						<MenuItem Margin="5,0,0,0" Header="XBOX" Foreground="White" FontFamily="{DynamicResource MetroFontLight}"
-						          BorderBrush="{x:Null}" FontSize="12">
-							<MenuItem Header="Take Screenshot" x:Name="menuScreenshot" Click="menuScreenshot_Click">
+						          BorderBrush="{x:Null}" FontSize="12" SubmenuOpened="MenuItem_SubmenuOpened">
+							<MenuItem Header="Take Screenshot" x:Name="menuScreenshot">
 								<MenuItem.Icon>
 									<Vectors:ScreenshotModule />
 								</MenuItem.Icon>
 							</MenuItem>
 							<Separator />
-							<MenuItem Header="Freeze" x:Name="menuFreeze" Click="menuFreeze_Click" >
+							<MenuItem Header="Freeze" x:Name="menuFreeze" >
 								<MenuItem.Icon>
 									<Vectors:FreezeModule />
 								</MenuItem.Icon>
 							</MenuItem>
-							<MenuItem Header="Unfreeze" x:Name="menuUnfreeze" Click="menuUnfreeze_Click" >
+							<MenuItem Header="Unfreeze" x:Name="menuUnfreeze" >
 								<MenuItem.Icon>
 									<Vectors:UnFreezeModule />
 								</MenuItem.Icon>
 							</MenuItem>
 							<Separator />
-							<MenuItem Header="Title Reboot" x:Name="menuRebootTitle" Click="menuRebootTitle_Click" >
+							<MenuItem Header="Title Reboot" x:Name="menuRebootTitle" >
 								<MenuItem.Icon>
 									<Vectors:RebootVector />
 								</MenuItem.Icon>
 							</MenuItem>
-							<MenuItem Header="Cold Reboot" x:Name="menuRebootCold" Click="menuRebootCold_Click" >
+							<MenuItem Header="Cold Reboot" x:Name="menuRebootCold" >
 								<MenuItem.Icon>
 									<Vectors:RebootVector RenderTransformOrigin="0.5,0.5">
 										<Vectors:RebootVector.RenderTransform>
