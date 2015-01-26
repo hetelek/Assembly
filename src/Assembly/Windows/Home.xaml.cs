@@ -286,60 +286,59 @@ namespace Assembly.Windows
 			}
 		}
 
-		private void takeScreenshot(IXbdm deviceOrDeviceCollection)
-		{
-            new Thread(new ThreadStart(delegate
-            {
-                this.Dispatcher.Invoke(delegate
-                    {
-                        menuScreenshot.IsEnabled = false;
-                    });
-
-                bool allSuccessful = true;
-				if (deviceOrDeviceCollection is XbdmDeviceCollection)
-                {
-					XbdmDeviceCollection deviceCollection = (XbdmDeviceCollection)deviceOrDeviceCollection;
-
-                    foreach (XbdmDevice device in deviceCollection.XbdmDevices)
-                        if (!createScreenShotTab(device))
-                            allSuccessful = false;
-                }
-                else
-					allSuccessful = createScreenShotTab((XbdmDevice)deviceOrDeviceCollection);
-
-                this.Dispatcher.Invoke(delegate
-                {
-                    menuScreenshot.IsEnabled = true;
-
-                    if (!allSuccessful)
-                        MetroMessageBox.Show("Not Connected", "One or more devices failed to take retrieve a screenshot.");
-                });
-
-            })).Start();
-		}
-
-        private bool createScreenShotTab(XbdmDevice device)
+        private async void takeScreenshot(IXbdm deviceOrDeviceCollection)
         {
-            bool success = true;
-            var screenshotFileName = Path.GetTempFileName();
-            try
-            {
-                if (device.GetScreenshot(screenshotFileName))
-                {
-                    this.Dispatcher.Invoke(delegate
-                    {
-                        App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName, device);
-                    });
-                }
-                else
-                    success = false;
-            }
-            finally
-            {
-                File.Delete(screenshotFileName);
-            }
+            menuScreenshot.IsEnabled = false;
 
-            return success;
+            bool allSuccessful = true;
+            if (deviceOrDeviceCollection is XbdmDeviceCollection)
+            {
+                XbdmDeviceCollection deviceCollection = (XbdmDeviceCollection)deviceOrDeviceCollection;
+
+                IEnumerable<Task<bool>> tasks = deviceCollection.XbdmDevices.Select(i => createScreenShotTab(i));
+                bool[] results = await Task.WhenAll(tasks);
+                allSuccessful = results.Count(i => i == false) == 0;
+            }
+            else
+                allSuccessful = await createScreenShotTab((XbdmDevice)deviceOrDeviceCollection);
+
+            menuScreenshot.IsEnabled = true;
+            if (!allSuccessful)
+                MetroMessageBox.Show("Not Connected", "One or more devices failed to take retrieve a screenshot.");
+        }
+
+        private async Task<bool> createScreenShotTab(XbdmDevice device)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    bool success = true;
+                    var screenshotFileName = Path.GetTempFileName();
+                    try
+                    {
+                        if (device.GetScreenshot(screenshotFileName))
+                        {
+                            this.Dispatcher.Invoke(delegate
+                            {
+                                App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName, device);
+                            });
+                        }
+                        else
+                            success = false;
+                    }
+                    finally
+                    {
+                        File.Delete(screenshotFileName);
+                    }
+
+                    return success;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
         }
 
 		// Help
