@@ -161,6 +161,13 @@ namespace XBDMCommunicator
 				case RebootType.Title:
 					SendStringCommand("reboot");
 					break;
+                case RebootType.ActiveTitle:
+                    XBOX_PROCESS_INFO info = _xboxConsole.RunningProcessInfo;
+                    string executablePath = info.ProgramName;
+                    string executableDirectory = Directory.GetParent(executablePath).FullName;
+                    SendStringCommand(String.Format("magicboot title=\"{0}\" directory=\"{1}\"", executablePath, executableDirectory));
+                    break;
+
 			}
 		}
 

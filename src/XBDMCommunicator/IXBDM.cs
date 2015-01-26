@@ -5,7 +5,8 @@ namespace XBDMCommunicator
     public enum RebootType
     {
         Cold,
-        Title
+        Title,
+        ActiveTitle
     }
 
     public interface IXbdm

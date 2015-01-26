@@ -134,7 +134,21 @@
 									<Vectors:RebootVector />
 								</MenuItem.Icon>
 							</MenuItem>
-							<MenuItem Header="Cold Reboot" x:Name="menuRebootCold" >
+                            <MenuItem Header="Active Title Reboot" x:Name="menuRebootActiveTitle" >
+                                <MenuItem.Icon>
+                                    <Vectors:RebootVector RenderTransformOrigin="0.5,0.5">
+                                        <Vectors:RebootVector.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="90" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </Vectors:RebootVector.RenderTransform>
+                                    </Vectors:RebootVector>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Cold Reboot" x:Name="menuRebootCold" >
 								<MenuItem.Icon>
 									<Vectors:RebootVector RenderTransformOrigin="0.5,0.5">
 										<Vectors:RebootVector.RenderTransform>

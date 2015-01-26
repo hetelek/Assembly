@@ -268,16 +268,18 @@ namespace Assembly.Windows
 				try
 				{
 					IXbdm xbdm = (IXbdm)currentItem.Tag;
-					if (parentHeader == "Take Screenshot")
-						takeScreenshot(xbdm);
-					else if (parentHeader == "Freeze")
-						xbdm.Freeze();
-					else if (parentHeader == "Unfreeze")
-						xbdm.Unfreeze();
-					else if (parentHeader == "Title Reboot")
-						xbdm.Reboot(RebootType.Title);
-					else if (parentHeader == "Cold Reboot")
-						xbdm.Reboot(RebootType.Cold);
+                    if (parentHeader == "Take Screenshot")
+                        takeScreenshot(xbdm);
+                    else if (parentHeader == "Freeze")
+                        xbdm.Freeze();
+                    else if (parentHeader == "Unfreeze")
+                        xbdm.Unfreeze();
+                    else if (parentHeader == "Title Reboot")
+                        xbdm.Reboot(RebootType.Title);
+                    else if (parentHeader == "Active Title Reboot")
+                        xbdm.Reboot(RebootType.ActiveTitle);
+                    else if (parentHeader == "Cold Reboot")
+                        xbdm.Reboot(RebootType.Cold);
 				}
 				catch
 				{
