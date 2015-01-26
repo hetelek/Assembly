@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace XBDMCommunicator
 {
@@ -32,13 +34,15 @@ namespace XBDMCommunicator
             return Position;
         }
 
-        public override void Write(byte[] buffer, int offset, int count)
+        public async override void Write(byte[] buffer, int offset, int count)
         {
-            foreach (XbdmDevice xbdmDevice in _xbdmDevices)
+            IEnumerable<Task> tasks = _xbdmDevices.Select(device =>
             {
-                xbdmDevice.MemoryStream.Write(buffer, offset, count);
-                Position = xbdmDevice.MemoryStream.Position;
-            }
+                Task t = device.MemoryStream.WriteAsync(buffer, offset, count);
+                Position = device.MemoryStream.Position;
+                return t;
+            });
+            await Task.WhenAll(tasks);
         }
     }
 }
