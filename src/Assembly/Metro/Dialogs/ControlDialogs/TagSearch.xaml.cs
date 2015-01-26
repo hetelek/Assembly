@@ -51,6 +51,8 @@ namespace Assembly.Metro.Dialogs.ControlDialogs
 
         private void CloseWithSave()
         {
+            this.SelectedTagIndex = -1;
+
             // find the index of the selected tag in the original list
             for (int i = 0; i < _tags.Count; i++)
                 if (_tags[i] == (string)this.lstTags.SelectedValue)
