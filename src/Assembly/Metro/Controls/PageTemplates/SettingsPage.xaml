@@ -263,7 +263,8 @@
 
 		<Grid Grid.Column="1" Margin="30,0,0,40">
 			<Grid x:Name="GeneralSettingsPanel" Visibility="Visible">
-				<StackPanel Margin="25,40,0,0">
+				<ScrollViewer>
+					<StackPanel Margin="25,40,0,0">
 					<TextBlock Text="general" Style="{DynamicResource SettingPageTitle}" />
 
 					<Grid Style="{DynamicResource SettingEntry}">
@@ -349,130 +350,134 @@
 						</StackPanel>
 					</Grid>
 				</StackPanel>
+				</ScrollViewer>
 			</Grid>
 
 			<Grid x:Name="Xbox360DevSettingsPanel" Visibility="Collapsed">
-				<StackPanel Margin="25,40,0,0">
-					<TextBlock Text="xbox 360 development kit" Style="{DynamicResource SettingPageTitle}" />
+				<ScrollViewer>
+					<StackPanel Margin="25,40,0,0">
+						<TextBlock Text="xbox 360 development kit" Style="{DynamicResource SettingPageTitle}" />
 
-					<Grid Style="{DynamicResource SettingEntry}">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="200" />
-							<ColumnDefinition Width="20" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+						<Grid Style="{DynamicResource SettingEntry}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="200" />
+								<ColumnDefinition Width="20" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-						<StackPanel Grid.Column="0">
-							<TextBlock Text="Xbox Name/IP:" Style="{DynamicResource SettingName}" />
-							<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
+							<StackPanel Grid.Column="0">
+								<TextBlock Text="Xbox Name/IP:" Style="{DynamicResource SettingName}" />
+								<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
 								The IP address of your Xbox 360 Development kit. You can use names if your xbdm plugin supports it. If you'd like to poke to multiple devices, use a comma to seperate them.
-							</TextBlock>
-						</StackPanel>
-						<Grid Grid.Column="2">
-							<TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="250" Text="{Binding Path=XdkNameIp, Mode=TwoWay}" />
+								</TextBlock>
+							</StackPanel>
+							<Grid Grid.Column="2">
+								<TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="250" Text="{Binding Path=XdkNameIp, Mode=TwoWay}" />
+							</Grid>
 						</Grid>
-					</Grid>
 
-					<Grid Style="{DynamicResource SettingEntry}">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="200" />
-							<ColumnDefinition Width="20" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+						<Grid Style="{DynamicResource SettingEntry}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="200" />
+								<ColumnDefinition Width="20" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-						<StackPanel Grid.Column="0">
-							<TextBlock Text="Screenshot Events:" Style="{DynamicResource SettingName}" />
-							<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
+							<StackPanel Grid.Column="0">
+								<TextBlock Text="Screenshot Events:" Style="{DynamicResource SettingName}" />
+								<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
 								Events that happen when assembly takes screenshots from the xbox 360 devkit.
-							</TextBlock>
-						</StackPanel>
-						<StackPanel Grid.Column="2">
-							<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left"
+								</TextBlock>
+							</StackPanel>
+							<StackPanel Grid.Column="2">
+								<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left"
 									  Width="400" IsChecked="{Binding Path=XdkScreenshotFreeze, Mode=TwoWay}"
 									  Content="Freeze Console (Makes screenshots more crisp)" />
-							<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0" 
+								<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0" 
 									  Width="400" IsChecked="{Binding Path=XdkAutoSave, Mode=TwoWay}"
 									  Content="Auto Save Screenshots (Choose the path below)" />
-							<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0" 
+								<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0" 
 									  Width="400" IsChecked="{Binding Path=XdkResizeImages, Mode=TwoWay}"
 									  Content="Resize Screenshots (Choose the size below)" />
-							<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0" 
+								<CheckBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0" 
 									  Width="400" IsChecked="{Binding Path=XdkScreenshotGammaCorrect, Mode=TwoWay}"
 									  Content="Gamma Correct Screenshots (Choose the modifier below)" />
-						</StackPanel>
-					</Grid>
+							</StackPanel>
+						</Grid>
 
-					<Grid Style="{DynamicResource SettingEntry}" IsEnabled="{Binding Path=XdkAutoSave}">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="200" />
-							<ColumnDefinition Width="20" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+						<Grid Style="{DynamicResource SettingEntry}" IsEnabled="{Binding Path=XdkAutoSave}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="200" />
+								<ColumnDefinition Width="20" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-						<StackPanel Grid.Column="0">
-							<TextBlock Text="Sceenshot Auto Save Path:" Style="{DynamicResource SettingName}" />
-							<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
+							<StackPanel Grid.Column="0">
+								<TextBlock Text="Sceenshot Auto Save Path:" Style="{DynamicResource SettingName}" />
+								<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
 								The path on your local PC to automatically save screenshots. (This feature is only used if the setting above is set to true)
-							</TextBlock>
-						</StackPanel>
-						<StackPanel Grid.Column="2" VerticalAlignment="Top" Orientation="Horizontal">
-							<TextBox x:Name="TextBoxAutoSaveDirectory" Width="250" Text="{Binding Path=XdkScreenshotPath, Mode=TwoWay}" />
-							<Button Margin="10,0,0,0" Width="75" Content="Browse..." Click="TextBoxAutoSaveDirectory_OnClick" />
-						</StackPanel>
-					</Grid>
+								</TextBlock>
+							</StackPanel>
+							<StackPanel Grid.Column="2" VerticalAlignment="Top" Orientation="Horizontal">
+								<TextBox x:Name="TextBoxAutoSaveDirectory" Width="250" Text="{Binding Path=XdkScreenshotPath, Mode=TwoWay}" />
+								<Button Margin="10,0,0,0" Width="75" Content="Browse..." Click="TextBoxAutoSaveDirectory_OnClick" />
+							</StackPanel>
+						</Grid>
 
-					<Grid Style="{DynamicResource SettingEntry}" IsEnabled="{Binding Path=XdkResizeImages}">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="200" />
-							<ColumnDefinition Width="20" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+						<Grid Style="{DynamicResource SettingEntry}" IsEnabled="{Binding Path=XdkResizeImages}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="200" />
+								<ColumnDefinition Width="20" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-						<StackPanel Grid.Column="0">
-							<TextBlock Text="Image Resizing:" Style="{DynamicResource SettingName}" />
-							<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
+							<StackPanel Grid.Column="0">
+								<TextBlock Text="Image Resizing:" Style="{DynamicResource SettingName}" />
+								<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
 								The size to resize screenshots to after they are taken. (This feature is only used if the setting above is set to true)
-							</TextBlock>
-						</StackPanel>
-						<StackPanel Grid.Column="2" VerticalAlignment="Top">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Width:" Foreground="White" VerticalAlignment="Center" Width="50" FontFamily="{DynamicResource MetroFontRegular}" />
-								<TextBox Text="{Binding Path=XdkResizeScreenshotWidth, Mode=TwoWay}" Width="100" />
+								</TextBlock>
 							</StackPanel>
+							<StackPanel Grid.Column="2" VerticalAlignment="Top">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Width:" Foreground="White" VerticalAlignment="Center" Width="50" FontFamily="{DynamicResource MetroFontRegular}" />
+									<TextBox Text="{Binding Path=XdkResizeScreenshotWidth, Mode=TwoWay}" Width="100" />
+								</StackPanel>
 
-							<StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-								<TextBlock Text="Height:" Foreground="White" VerticalAlignment="Center" Width="50" FontFamily="{DynamicResource MetroFontRegular}" />
-								<TextBox Text="{Binding Path=XdkResizeScreenshotHeight, Mode=TwoWay}" Width="100" />
+								<StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+									<TextBlock Text="Height:" Foreground="White" VerticalAlignment="Center" Width="50" FontFamily="{DynamicResource MetroFontRegular}" />
+									<TextBox Text="{Binding Path=XdkResizeScreenshotHeight, Mode=TwoWay}" Width="100" />
+								</StackPanel>
 							</StackPanel>
-						</StackPanel>
-					</Grid>
+						</Grid>
 
-					<Grid Style="{DynamicResource SettingEntry}" IsEnabled="{Binding Path=XdkScreenshotGammaCorrect}">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="200" />
-							<ColumnDefinition Width="20" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+						<Grid Style="{DynamicResource SettingEntry}" IsEnabled="{Binding Path=XdkScreenshotGammaCorrect}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="200" />
+								<ColumnDefinition Width="20" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-						<StackPanel Grid.Column="0">
-							<TextBlock Text="Gamma Adjustment:" Style="{DynamicResource SettingName}" />
-							<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
+							<StackPanel Grid.Column="0">
+								<TextBlock Text="Gamma Adjustment:" Style="{DynamicResource SettingName}" />
+								<TextBlock TextWrapping="Wrap" Style="{DynamicResource SettingDescription}">
 								Adjusts the gamma of screenshots after they are taken. (This feature is only used if the setting above is set to true)
-							</TextBlock>
-						</StackPanel>
-						<StackPanel Grid.Column="2" VerticalAlignment="Top" Orientation="Horizontal">
-							<TextBlock Text="Modifier: " Foreground="White" FontFamily="{DynamicResource MetroFontRegular}" />
-							<TextBlock Text="{Binding Path=Value, ElementName=SliderGammaCorrectionXbox360, FallbackValue=0.5}" Foreground="White" FontFamily="{DynamicResource MetroFontRegular}" />
-							<Slider x:Name="SliderGammaCorrectionXbox360" Margin="10,0,0,0"
+								</TextBlock>
+							</StackPanel>
+							<StackPanel Grid.Column="2" VerticalAlignment="Top" Orientation="Horizontal">
+								<TextBlock Text="Modifier: " Foreground="White" FontFamily="{DynamicResource MetroFontRegular}" />
+								<TextBlock Text="{Binding Path=Value, ElementName=SliderGammaCorrectionXbox360, FallbackValue=0.5}" Foreground="White" FontFamily="{DynamicResource MetroFontRegular}" />
+								<Slider x:Name="SliderGammaCorrectionXbox360" Margin="10,0,0,0"
 									TickFrequency=".01" IsSnapToTickEnabled="true" TickPlacement="None"
 									Value="{Binding Path=XdkScreenshotGammaModifier, Mode=TwoWay, FallbackValue=0.5}"
 									Maximum="1" Minimum="0" Width="100" />
-						</StackPanel>
-					</Grid>
-				</StackPanel>
+							</StackPanel>
+						</Grid>
+					</StackPanel>
+				</ScrollViewer>
 			</Grid>
 
 			<Grid x:Name="MapEditSettingsPanel" Visibility="Collapsed">
+				<ScrollViewer>
 				<StackPanel Margin="25,40,0,0">
 					<TextBlock Text="map editor" Style="{DynamicResource SettingPageTitle}" />
 
@@ -571,9 +576,11 @@
 						</StackPanel>
 					</Grid>
 				</StackPanel>
+				</ScrollViewer>
 			</Grid>
 
 			<Grid x:Name="PluginsSettingsPanel" Visibility="Collapsed">
+				<ScrollViewer>
 				<StackPanel Margin="25,40,0,0">
 					<TextBlock Text="plugins" Style="{DynamicResource SettingPageTitle}" />
 
@@ -609,7 +616,7 @@
 						</StackPanel>
 					</Grid>
 				</StackPanel>
-
+				</ScrollViewer>
 			</Grid>
 
 			<Grid x:Name="StartPageSettingsPanel" Visibility="Collapsed">
