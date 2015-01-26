@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using XDevkit;
 
 namespace XBDMCommunicator
@@ -200,5 +201,18 @@ namespace XBDMCommunicator
 
 			return true;
 		}
+
+        /// <summary>
+        ///     Save a screenshot from the XBox Console asynchronously
+        /// </summary>
+        /// <param name="savePath">The location to save the image to.</param>
+        /// <param name="freezeDuring">Do you want to freeze while the screenshot is being taken.</param>
+        public async Task<bool> GetScreenshotAsync(string savePath, bool freezeDuring = false)
+        {
+            return await Task.Run(() =>
+            {
+                return GetScreenshot(savePath, freezeDuring);
+            });
+        }
 	}
 }

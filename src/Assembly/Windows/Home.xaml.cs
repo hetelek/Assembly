@@ -309,36 +309,33 @@ namespace Assembly.Windows
 
         private async Task<bool> createScreenShotTab(XbdmDevice device)
         {
-            return await Task.Run(() =>
+            try
             {
+                bool success = true;
+                var screenshotFileName = Path.GetTempFileName();
                 try
                 {
-                    bool success = true;
-                    var screenshotFileName = Path.GetTempFileName();
-                    try
+                    if (await device.GetScreenshotAsync(screenshotFileName))
                     {
-                        if (device.GetScreenshot(screenshotFileName))
+                        this.Dispatcher.Invoke(delegate
                         {
-                            this.Dispatcher.Invoke(delegate
-                            {
-                                App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName, device);
-                            });
-                        }
-                        else
-                            success = false;
+                            App.AssemblyStorage.AssemblySettings.HomeWindow.AddScrenTabModule(screenshotFileName, device);
+                        });
                     }
-                    finally
-                    {
-                        File.Delete(screenshotFileName);
-                    }
-
-                    return success;
+                    else
+                        success = false;
                 }
-                catch
+                finally
                 {
-                    return false;
+                    File.Delete(screenshotFileName);
                 }
-            });
+
+                return success;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 		// Help
