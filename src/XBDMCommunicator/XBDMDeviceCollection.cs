@@ -12,8 +12,12 @@ namespace XBDMCommunicator
             DeviceIdent = deviceIdents;
 
             string[] splitDeviceIdents = deviceIdents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < splitDeviceIdents.Length; i++)
-                XbdmDevices.Add(new XbdmDevice(splitDeviceIdents[i], openConnection));
+			for (int i = 0; i < splitDeviceIdents.Length; i++)
+			{
+				string trimmedSplitDeviceIdent = splitDeviceIdents[i].Trim();
+				if (trimmedSplitDeviceIdent != String.Empty)
+					XbdmDevices.Add(new XbdmDevice(trimmedSplitDeviceIdent, openConnection));
+			}
         }
 
         public XbdmMemoryStream MemoryStream
