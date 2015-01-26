@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 namespace XBDMCommunicator
 {
@@ -77,57 +79,90 @@ namespace XBDMCommunicator
                 XbdmDevices.Add(new XbdmDevice(newSplitDeviceIdent));
         }
 
+        public async Task<string> SendStringCommandAsync(string command)
+        {
+            IEnumerable<Task<string>> tasks = XbdmDevices.Select(device =>
+            {
+                Task<string> t = Task.Run(() => device.SendStringCommand(command));
+                return t;
+            });
+            string[] result = await Task.WhenAll(tasks);
+
+            if (result.Length < 1)
+                return String.Empty;
+            return result[0];
+        }
+
         public string SendStringCommand(string command)
         {
-            if (XbdmDevices.Count < 1)
-                return String.Empty;
+            return SendStringCommandAsync(command).Result;
+        }
 
-            string[] responses = new string[XbdmDevices.Count];
-            for (int i = 0; i < responses.Length; i++)
-                responses[i] = XbdmDevices[i].SendStringCommand(command);
+        public async Task<bool> ConnectAsync()
+        {
+            IEnumerable<Task<bool>> tasks = XbdmDevices.Select(device =>
+            {
+                Task<bool> t = Task.Run(() => device.Connect());
+                return t;
+            });
+            bool[] result = await Task.WhenAll(tasks);
 
-            return responses[0];
+            return result.Count(i => i == false) == 0;
         }
 
         public bool Connect()
         {
-            bool connectedToAll = true;
-            
-            foreach (IXbdm xbdmDevice in XbdmDevices)
-                if (!xbdmDevice.Connect())
-                    connectedToAll = false;
-
-            return connectedToAll;
+            return ConnectAsync().Result;
         }
 
-        public void Disconnect()
+        public async void Disconnect()
         {
-            foreach (IXbdm xbdmDevice in XbdmDevices)
-                xbdmDevice.Disconnect();
+            IEnumerable<Task> tasks = XbdmDevices.Select(device =>
+            {
+                Task t = Task.Run(() => device.Disconnect());
+                return t;
+            });
+            await Task.WhenAll(tasks);
         }
 
-        public void Freeze()
+        public async void Freeze()
         {
-            foreach (IXbdm xbdmDevice in XbdmDevices)
-                xbdmDevice.Freeze();
+            IEnumerable<Task> tasks = XbdmDevices.Select(device =>
+            {
+                Task t = Task.Run(() => device.Freeze());
+                return t;
+            });
+            await Task.WhenAll(tasks);
         }
 
-        public void Unfreeze()
+        public async void Unfreeze()
         {
-            foreach (IXbdm xbdmDevice in XbdmDevices)
-                xbdmDevice.Unfreeze();
+            IEnumerable<Task> tasks = XbdmDevices.Select(device =>
+            {
+                Task t = Task.Run(() => device.Unfreeze());
+                return t;
+            });
+            await Task.WhenAll(tasks);
         }
 
-        public void Reboot(RebootType rebootType)
+        public async void Reboot(RebootType rebootType)
         {
-            foreach (IXbdm xbdmDevice in XbdmDevices)
-                xbdmDevice.Reboot(rebootType);
+            IEnumerable<Task> tasks = XbdmDevices.Select(device =>
+            {
+                Task t = Task.Run(() => device.Reboot(rebootType));
+                return t;
+            });
+            await Task.WhenAll(tasks);
         }
 
-        public void Shutdown()
+        public async void Shutdown()
         {
-            foreach (IXbdm xbdmDevice in XbdmDevices)
-                xbdmDevice.Shutdown();
+            IEnumerable<Task> tasks = XbdmDevices.Select(device =>
+            {
+                Task t = Task.Run(() => device.Shutdown());
+                return t;
+            });
+            await Task.WhenAll(tasks);
         }
     }
 }
