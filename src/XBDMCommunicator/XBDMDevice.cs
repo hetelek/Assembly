@@ -159,7 +159,7 @@ namespace XBDMCommunicator
 					SendStringCommand("reboot");
 					break;
 				case RebootType.Title:
-					SendStringCommand("reboot");
+					SendStringCommand("magicboot");
 					break;
                 case RebootType.ActiveTitle:
                     XBOX_PROCESS_INFO info = _xboxConsole.RunningProcessInfo;
